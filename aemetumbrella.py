@@ -15,14 +15,20 @@ def get_precip_info(day, hour):
         hourtag_list.append("18-24")
 
     req_str = "http://www.aemet.es/xml/municipios/localidad_28092.xml"
-    
+
     print "Fetching AEMET..."
-    req = requests.get(req_str)
-   
-    tree = ET.fromstring(req.text.encode('utf-8'))
+    
+    #In case the request or the parsing fails
+    try:
+        req = requests.get(req_str)
+
+        tree = ET.fromstring(req.text.encode('utf-8'))
+    except:
+        return -1
+
     treeDay = None
     for dia in tree.iter("dia"):
-        if(dia.get("fecha")==day):	    
+        if(dia.get("fecha")==day):
             treeDay = dia
 
     if(treeDay is None):
@@ -34,4 +40,3 @@ def get_precip_info(day, hour):
             if(int(prob.text)>49):
                 return 1
     return 0
-		    
