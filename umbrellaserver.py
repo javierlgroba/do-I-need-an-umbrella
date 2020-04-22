@@ -6,6 +6,10 @@ from aemetumbrella import get_precip_info
 def server_static(filename):
     return static_file(filename, root='resources/')
 
+@route('/favicon.ico')
+def favicon():
+    return server_static('favicon.ico')
+
 @route('/')
 def display_umbrella():
     now = datetime.now()
